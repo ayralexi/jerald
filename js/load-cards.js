@@ -23,7 +23,8 @@ export async function loadAndRenderCards(pageName) {
 export function setupContentUpdateListener() {
     document.addEventListener('contentUpdated', async (event) => {
         const href = event.detail.page;
-        const pageName = href.split('/').pop(); 
+        const pageName = href.split('/').pop();
+        await loadAndRenderCards(pageName);
     });
 }
 
