@@ -33,10 +33,15 @@ export function renderNavigation() {
     return;
   }
 
-  // Get current page filename more robustly
-  const pathname = window.location.pathname;
-  const pageMatch = pathname.match(/([a-z0-9-]+\.html)/i);
-  const currentPage = pageMatch ? pageMatch[1] : 'n8n.html';
+  // Determine current page: first check sessionStorage, then check URL
+  let currentPage = sessionStorage.getItem('currentPage');
+  
+  if (!currentPage) {
+    // Fallback: try to extract from pathname
+    const pathname = window.location.pathname;
+    const pageMatch = pathname.match(/([a-z0-9-]+\.html)/i);
+    currentPage = pageMatch ? pageMatch[1] : 'n8n.html';
+  }
 
   let ul = navElement.querySelector('ul');
   if (ul) {
@@ -69,6 +74,9 @@ export function renderNavigation() {
 
     a.addEventListener('click', (e) => {
       e.preventDefault();
+      
+      // Store the target page immediately
+      sessionStorage.setItem('currentPage', item.filename);
       
       // Remove active class from all nav links
       document.querySelectorAll('.nav a').forEach(link => {
