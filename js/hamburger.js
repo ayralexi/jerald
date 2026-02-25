@@ -2,6 +2,22 @@
 
 export function initHamburger() {
     setupSidebarMobileToggle();
+    setupBrandClick();
+}
+
+export function setupBrandClick() {
+    const brand = document.querySelector('.brand');
+    
+    if (!brand) {
+        return;
+    }
+
+    brand.addEventListener('click', () => {
+        // Clear current page from sessionStorage
+        sessionStorage.removeItem('currentPage');
+        // Navigate to index
+        window.location.href = '../index.html';
+    });
 }
 
 export function setupSidebarMobileToggle() {
