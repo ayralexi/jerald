@@ -1,0 +1,12 @@
+[
+  {
+    "title": "IT Projects Board",
+    "description": "Track ongoing IT projects and initiatives.",
+    "url": "https://trello.com/b/He4iFV4X/general-cis-it-board"
+  },
+  {
+    "title": "Technical Issues Board",
+    "description": "Monitor reported technical issues and resolutions.",
+    "url": "https://trello.com/b/R2chthvE/cis-it-bug-tracking"
+  }
+]

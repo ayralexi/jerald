@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Main n8n link",
+    "description": "View and manage all active automation workflows.",
+    "url": "https://primary-production-a810.up.railway.app/home/workflows"
+  },
+  {
+    "title": "N8n Executions",
+    "description": "Monitor workflow runs, logs, and execution history.",
+    "url": "https://primary-production-a810.up.railway.app/home/executions"
+  }
+]

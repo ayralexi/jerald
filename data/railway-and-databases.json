@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Main Railway link",
+    "description": "Manage deployments, services, and environment settings.",
+    "url": "https://railway.com/project/01eabae0-cfaf-4141-991e-d44fc05c13d9?environmentId=20164b82-acc2-4d68-9fb8-e70d9d87d366"
+  },
+  {
+    "title": "STEWRD Employee Database, Payroll and Employee Liabilities DbGate Link",
+    "description": "Access employee records, payroll data, and liabilities database.",
+    "url": "https://dbgate-cqnq-production.up.railway.app"
+  }
+]
