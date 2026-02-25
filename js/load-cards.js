@@ -12,7 +12,7 @@ export async function loadAndRenderCards(pageName) {
 
         const cardsData = await response.json();
 
-        renderCards(cardsData);
+        renderCards(cardsData, cleanPageName);
 
         document.dispatchEvent(new CustomEvent('cardsLoaded', {
             detail: { count: cardsData.length }
@@ -30,9 +30,12 @@ export function setupContentUpdateListener() {
     });
 }
 
-function renderCards(cardsData) {
+function renderCards(cardsData, pageName) {
     const cardsContainer = document.querySelector('.cards');
     if (!cardsContainer) return;
+
+    const pageIdentifier = pageName.replace('.html', '');
+    cardsContainer.setAttribute('data-page', pageIdentifier);
 
     const header = document.createElement('div');
     header.className = 'cards-header';

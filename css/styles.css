@@ -302,6 +302,41 @@ body {
     border-radius: 1rem;
     transition: all 0.3s ease;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -50px;
+    width: 400px;
+    height: 400px;
+    background: url('../assests/icons/n8n.png') center/contain no-repeat;
+    opacity: 0.2;
+    transform: scale(1) translateY(-50%);
+    transition: all 0.8s ease-in-out;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.cards[data-page="accounts-and-credentials"] .card::before {
+    background: url('../assests/icons/a&c.png') center/contain no-repeat;
+}
+
+.cards[data-page="railway-and-databases"] .card::before {
+    background: url('../assests/icons/railway.png') center/contain no-repeat;
+}
+
+.cards[data-page="trello-boards"] .card::before {
+    background: url('../assests/icons/trello.png') center/contain no-repeat;
+}
+
+.card:hover::before {
+    opacity: 0.3;
+    transform: scale(1.1) translateY(-50%);
+    animation: driftLogo 4s linear infinite;
 }
 
 .card:hover {
@@ -315,6 +350,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    position: relative;
+    z-index: 2;
 }
 
 .card-content h3 {
@@ -345,6 +382,8 @@ body {
     transition: all 0.3s ease;
     flex-shrink: 0;
     margin-left: 1rem;
+    position: relative;
+    z-index: 2;
 }
 
 .card-action:hover {
@@ -590,5 +629,16 @@ body {
 
     .logo-responsive {
         display: inline-block;
+    }
+}
+
+@keyframes driftLogo {
+    0% {
+        transform: scale(1.1) translateY(-50%) translateX(100px);
+        opacity: 0.2;
+    }
+    100% {
+        transform: scale(1.1) translateY(-50%) translateX(-100px);
+        opacity: 0.2;
     }
 }
