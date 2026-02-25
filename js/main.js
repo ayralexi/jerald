@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initHamburger();
 
-    // Get current page name from URL path - handles Cloudflare Pages URLs correctly
+    // Get current page name from URL path - handles all page locations correctly
     const pathname = window.location.pathname;
     const pageMatch = pathname.match(/([a-z0-9-]+\.html)/i);
     const currentPage = pageMatch ? pageMatch[1] : 'n8n.html';
