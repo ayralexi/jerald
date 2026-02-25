@@ -1,6 +1,8 @@
 export async function loadAndRenderCards(pageName) {
     try {
-        const jsonPath = `../data/${pageName.replace('.html', '.json')}`;
+        // Ensure pageName ends with .html for the JSON path
+        const cleanPageName = pageName.endsWith('.html') ? pageName : `${pageName}.html`;
+        const jsonPath = `../data/${cleanPageName.replace('.html', '.json')}`;
 
         const response = await fetch(jsonPath);
         if (!response.ok) {
