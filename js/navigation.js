@@ -92,15 +92,24 @@ export function renderNavigation() {
 
 
 function performPageTransition(href) {
-    const mainElement = document.querySelector('.main');
-    mainElement.classList.add('fade-out');
+    const pageHeader = document.querySelector('.page-header');
+    const cardsSection = document.querySelector('.cards');
+    
+    // Add fade-out to content only
+    if (pageHeader) pageHeader.classList.add('fade-out');
+    if (cardsSection) cardsSection.classList.add('fade-out');
     
     // Add .html extension if not present for fetching
     const fetchUrl = href.endsWith('.html') ? href : `${href}.html`;
+    // Use absolute path from current location
+    const absoluteFetchUrl = `/dashboard/${fetchUrl}`;
     
     setTimeout(async () => {
         try {
-            const response = await fetch(fetchUrl);
+            const response = await fetch(absoluteFetchUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch: ${response.status}`);
+            }
             const html = await response.text();
             
             const parser = new DOMParser();
@@ -109,15 +118,14 @@ function performPageTransition(href) {
             const newPageHeader = doc.querySelector('.page-header');
             const newCards = doc.querySelector('.cards');
             
-            const currentPageHeader = mainElement.querySelector('.page-header');
-            const currentCards = mainElement.querySelector('.cards');
-            
-            if (newPageHeader && currentPageHeader) {
-                currentPageHeader.innerHTML = newPageHeader.innerHTML;
+            if (newPageHeader && pageHeader) {
+                pageHeader.innerHTML = newPageHeader.innerHTML;
+                pageHeader.classList.remove('fade-out');
             }
             
-            if (newCards && currentCards) {
-                currentCards.innerHTML = newCards.innerHTML;
+            if (newCards && cardsSection) {
+                cardsSection.innerHTML = newCards.innerHTML;
+                cardsSection.classList.remove('fade-out');
             }
             
             // Update browser URL without .html extension
@@ -125,11 +133,9 @@ function performPageTransition(href) {
             
             const event = new CustomEvent('contentUpdated', { detail: { page: href } });
             document.dispatchEvent(event);
-            
-            mainElement.classList.remove('fade-out');
         } catch (error) {
             console.error('Error loading page:', error);
-            window.location.href = fetchUrl;
+            window.location.href = absoluteFetchUrl;
         }
     }, 150);
 }
