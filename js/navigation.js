@@ -97,14 +97,3 @@ export function renderNavigation() {
 
   navElement.appendChild(ul);
 }
-
-
-function performPageTransition(href) {
-    const mainElement = document.querySelector('.main');
-
-    mainElement.classList.add('fade-out');
-
-    setTimeout(() => {
-        window.location.href = href;
-    }, 300);
-}
