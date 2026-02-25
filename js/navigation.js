@@ -33,11 +33,9 @@ export function renderNavigation() {
     return;
   }
 
-  // Determine current page: first check sessionStorage, then check URL
   let currentPage = sessionStorage.getItem('currentPage');
   
   if (!currentPage) {
-    // Fallback: try to extract from pathname
     const pathname = window.location.pathname;
     const pageMatch = pathname.match(/([a-z0-9-]+\.html)/i);
     currentPage = pageMatch ? pageMatch[1] : 'n8n.html';
@@ -56,13 +54,11 @@ export function renderNavigation() {
     
     a.href = item.href;
     
-    // Create icon span with SVG
     const iconSpan = document.createElement('span');
     iconSpan.className = 'nav-icon';
     iconSpan.innerHTML = item.iconSvg;
     a.appendChild(iconSpan);
     
-    // Create label span
     const labelSpan = document.createElement('span');
     labelSpan.className = 'nav-label';
     labelSpan.textContent = item.label;
@@ -75,18 +71,14 @@ export function renderNavigation() {
     a.addEventListener('click', (e) => {
       e.preventDefault();
       
-      // Store the target page immediately
       sessionStorage.setItem('currentPage', item.filename);
       
-      // Remove active class from all nav links
       document.querySelectorAll('.nav a').forEach(link => {
         link.classList.remove('active');
       });
       
-      // Add active class to clicked link
       a.classList.add('active');
       
-      // Perform page transition
       performPageTransition(item.href);
     });
 
@@ -96,4 +88,42 @@ export function renderNavigation() {
 
 
   navElement.appendChild(ul);
+}
+
+
+function performPageTransition(href) {
+    const mainElement = document.querySelector('.main');
+    mainElement.classList.add('fade-out');
+    
+    setTimeout(async () => {
+        try {
+            const response = await fetch(href);
+            const html = await response.text();
+            
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            const newPageHeader = doc.querySelector('.page-header');
+            const newCards = doc.querySelector('.cards');
+            
+            const currentPageHeader = mainElement.querySelector('.page-header');
+            const currentCards = mainElement.querySelector('.cards');
+            
+            if (newPageHeader && currentPageHeader) {
+                currentPageHeader.innerHTML = newPageHeader.innerHTML;
+            }
+            
+            if (newCards && currentCards) {
+                currentCards.innerHTML = newCards.innerHTML;
+            }
+            
+            const event = new CustomEvent('contentUpdated', { detail: { page: href } });
+            document.dispatchEvent(event);
+            
+            mainElement.classList.remove('fade-out');
+        } catch (error) {
+            console.error('Error loading page:', error);
+            window.location.href = href;
+        }
+    }, 150);
 }

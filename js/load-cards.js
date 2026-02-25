@@ -1,12 +1,7 @@
-/**
- * Load and render cards from JSON data
- */
 export async function loadAndRenderCards(pageName) {
     try {
-        // Determine JSON file path based on page name
         const jsonPath = `../data/${pageName.replace('.html', '.json')}`;
 
-        // Fetch the JSON data
         const response = await fetch(jsonPath);
         if (!response.ok) {
             console.warn(`Cards data not found for ${pageName}`);
@@ -15,10 +10,8 @@ export async function loadAndRenderCards(pageName) {
 
         const cardsData = await response.json();
 
-        // Render cards
         renderCards(cardsData);
 
-        // Dispatch custom event
         document.dispatchEvent(new CustomEvent('cardsLoaded', {
             detail: { count: cardsData.length }
         }));
@@ -27,14 +20,17 @@ export async function loadAndRenderCards(pageName) {
     }
 }
 
-/**
- * Render cards from data array
- */
+export function setupContentUpdateListener() {
+    document.addEventListener('contentUpdated', async (event) => {
+        const href = event.detail.page;
+        const pageName = href.split('/').pop(); 
+    });
+}
+
 function renderCards(cardsData) {
     const cardsContainer = document.querySelector('.cards');
     if (!cardsContainer) return;
 
-    // Create header with resource count
     const header = document.createElement('div');
     header.className = 'cards-header';
     const title = document.createElement('span');
@@ -44,11 +40,9 @@ function renderCards(cardsData) {
     header.appendChild(title);
     header.appendChild(count);
     
-    // Clear existing content and add header
     cardsContainer.innerHTML = '';
     cardsContainer.appendChild(header);
 
-    // Create and append cards
     cardsData.forEach(card => {
         const article = document.createElement('article');
         article.className = 'card';
@@ -72,7 +66,6 @@ function renderCards(cardsData) {
         link.rel = 'noopener';
         link.setAttribute('aria-label', `Open ${card.title}`);
         
-        // Create icon image
         const img = document.createElement('img');
         img.src = '../assests/icons/top-right.png';
         img.alt = '';
@@ -84,5 +77,3 @@ function renderCards(cardsData) {
         cardsContainer.appendChild(article);
     });
 }
-
-

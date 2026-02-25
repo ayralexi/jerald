@@ -1,5 +1,5 @@
 import { renderNavigation } from './navigation.js';
-import { loadAndRenderCards } from './load-cards.js';
+import { loadAndRenderCards, setupContentUpdateListener } from './load-cards.js';
 import { initHamburger } from './hamburger.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initHamburger();
 
-    // Get current page name from URL path - handles all page locations correctly
+    setupContentUpdateListener();
+
     const pathname = window.location.pathname;
     const pageMatch = pathname.match(/([a-z0-9-]+\.html)/i);
     const currentPage = pageMatch ? pageMatch[1] : 'n8n.html';
